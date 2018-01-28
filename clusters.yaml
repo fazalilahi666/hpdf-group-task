@@ -1,0 +1,7 @@
+- alias: hasura
+  config:
+    configmap: controller-conf
+    namespace: abash76-hasura
+  data: null
+  kubeContext: abash76
+  name: abash76
