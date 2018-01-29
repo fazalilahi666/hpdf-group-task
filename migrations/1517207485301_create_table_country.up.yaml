@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "country"("id" serial NOT NULL, "country_id" text NOT NULL,
+      "country_name" text NOT NULL, PRIMARY KEY ("id") )
+  type: run_sql
+- args:
+    name: country
+  type: add_existing_table_or_view

@@ -6,7 +6,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 require('request-debug')(request);
 
-var hasuraExamplesRouter = require('./hasuraExamples');
+var newsBotRouter = require('./newsBot');
 
 var server = require('http').Server(app);
 
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use('/', hasuraExamplesRouter);
+app.use('/', newsBotRouter);
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!');

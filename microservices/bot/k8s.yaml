@@ -22,6 +22,21 @@ items:
         - image: hasura/hello-world:latest
           imagePullPolicy: IfNotPresent
           name: api
+          env:
+          - name: PRODUCTION
+            value: "true"
+          - name: CLUSTER_NAME 
+            value: {{ cluster.name }}
+          - name: WIT_ACCESS_TOKEN
+            valueFrom:
+               secretKeyRef:
+                  name: hasura-secrets
+                  key: bot.wit_access_token.key  
+          - name: NEWS_API_KEY            
+            valueFrom:
+               secretKeyRef:
+                  name: hasura-secrets
+                  key: bot.news_api_key.key
           ports:
           - containerPort: 8080
             protocol: TCP
