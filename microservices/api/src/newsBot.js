@@ -4,13 +4,13 @@ var config = require('./config');
 var axios = require('axios');
 var Wit = require('node-wit').Wit;
 const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI('6c99e2b09d334c99997e163cd261c33d');
 
 let FACEBOOK_VERIFY_TOKEN = process.env.FACEBOOK_VERIFY_TOKEN;
-let FACEBOOK_PAGE_ACCESS_TOKEN = process.env.FACEBOOK_PAGE_ACCESS_TOKEN || "EAABlWgMSfnEBABSfGMZBUd20gAWs5olUiPqLfknyLqlRm0U11NXcOBiEcvZA2qb92ZBT8OoIGMUCiyfmRGmBjpRXBV4hunZAhJX9CEDi8Lgn9mr54lZBbk4FRemLikJIkcTynF7fjZBXuZA0bbk1qaIv1JmnS2b9B3DXwfvzzCtFBrruisjZBEjG";
+let FACEBOOK_PAGE_ACCESS_TOKEN = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
 let FACEBOOK_SEND_MESSAGE_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + FACEBOOK_PAGE_ACCESS_TOKEN;
 const accessToken = process.env.WIT_ACCESS_TOKEN;
 const newOrg_API_KEY = process.env.NEWS_API_KEY;
+const newsapi = new NewsAPI(newOrg_API_KEY);
 
 const firstEntityValue = (entities, entity) => {
     const val = entities && entities[entity] &&
