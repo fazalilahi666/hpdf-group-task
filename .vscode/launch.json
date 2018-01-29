@@ -12,7 +12,7 @@
             "env": {
                 "CLUSTER_NAME":"abash76"                
             },
-            "program": "${workspaceFolder}/microservices\\bot\\src\\server.js"
+            "program": "${workspaceFolder}/microservices\\api\\src\\server.js"
         }
     ]
 }
