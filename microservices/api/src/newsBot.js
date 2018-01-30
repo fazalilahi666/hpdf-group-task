@@ -28,6 +28,8 @@ router.route("/").get(function (req, res) {
 })
 
 router.get('/webhook/', function(req, res) {
+  console.log("fb verify token...",FACEBOOK_VERIFY_TOKEN)
+  console.log("hub qery..",req.query['hub.verify_token'])
 if (req.query['hub.verify_token'] === FACEBOOK_VERIFY_TOKEN) {
         res.send(req.query['hub.challenge'])
         return;
