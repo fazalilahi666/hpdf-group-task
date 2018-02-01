@@ -216,7 +216,7 @@ router.post('/webhook/', function(req, res) {
     fetchUrl = userIntent === "random_search" ? randomSearch:fetchUrl;
     newsapi.v2.topHeadlines(fetchUrl).then(response => {
         showTypingIndicatorToUser(senderId, false);
-        console.log(response);
+        //console.log("response from wit...",response);
         if (response.articles) {
             if (response.articles.length > 0) {
               var elements = []
@@ -225,6 +225,7 @@ router.post('/webhook/', function(req, res) {
                 var article = response.articles[i];
                 elements.push(getElementObject(article));
               }
+              console.log("articles as response...",elements);
               sendUIMessageToUser(senderId, elements);
             } else {
               sendMessageToUser(senderId, 'Could not find any informationg on ' + phraseSrch);
