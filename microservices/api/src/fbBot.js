@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 var config = require('./config');
-var axios = require('axios');
 var Wit = require('node-wit').Wit;
 const NewsAPI = require('newsapi');
 
@@ -22,15 +22,13 @@ const firstEntityValue = (entities, entity) => {
         }
         return typeof val === 'object' ? val.value : val;
         };
-
+  
 router.route("/").get(function (req, res) {
-    res.send("Hi! I am a news bot.")
+  res.send("Hi! I am a news bot.")
 })
-
 router.get('/webhook/', function(req, res) {
-  console.log("fb verify token...",FACEBOOK_VERIFY_TOKEN)
-  console.log("hub qery..",req.query['hub.verify_token'])
-if (req.query['hub.verify_token'] === FACEBOOK_VERIFY_TOKEN) {
+  console.log("fb verify token...",FACEBOOK_VERIFY_TOKEN);
+  if (req.query['hub.verify_token'] === FACEBOOK_VERIFY_TOKEN) {
         res.send(req.query['hub.challenge'])
         return;
     }
@@ -52,12 +50,13 @@ router.post('/webhook/', function(req, res) {
                 if (messagingObject.message) {
                   if (!messagingObject.message.is_echo) {
                     var msgText = messagingObject.message.text;
+                    console.log(`got text message from chat...  ${msgText}`);
                     const client = new Wit({accessToken: accessToken});	
-                    var userIntent;                
-                                      
+                    var userIntent;   
                     // make wit request
                     client.message(msgText)
                     .then((witRes) => {
+                        console.log(`got wit response...  ${witRes}`);
                         // get user intent from wit
                         userIntent = firstEntityValue(witRes.entities, 'intent');
                         // get user greetings from user if any
@@ -70,9 +69,7 @@ router.post('/webhook/', function(req, res) {
                         const newsLocation = firstEntityValue(witRes.entities, 'location') || 'in';
                         // get any phrase searched for
                         const phraseSrch = firstEntityValue(witRes.entities, 'local_search_query') || {};
-                  
-                        //var fetchUrl = getNewsUrl(newsCategory,newsLocation,phraseSrch,userIntent);	// news api url
-                        
+                      
                         if (!userIntent) {	// no intent, fallback
                           res.send(defaultResponse);
                         }
@@ -81,10 +78,10 @@ router.post('/webhook/', function(req, res) {
                             switch (userIntent) {
                               case 'random_search':		
                                   case 'get_headlines':	
-                                getNews(senderId, newsCategory,newsLocation,phraseSrch,userIntent);
+                                  getNews(senderId, newsCategory,newsLocation,phraseSrch,userIntent);
                                   break;	
                                   case 'user_greeted':
-                                  sendMessageToUser(senderId, `Hi. I am a News Bot. I can get you news by category,source or location. You can also do a random search.`);
+                                  sendMessageToUser(senderId, `Hi! I can get you news by news categories or location.`);
                                   break;	
                                   case 'user_thanked':
                                   sendMessageToUser(senderId, "My Pleasure. Always!");
@@ -93,14 +90,14 @@ router.post('/webhook/', function(req, res) {
                                   sendMessageToUser(senderId, "See you again.");
                                   break;  
                                   default:
-                                  console.log(`🤖  ${userIntent}`);
+                                  console.log(`userintent...  ${userIntent}`);
                                   sendMessageToUser(senderId, defaultResponse);
                                   break;
                               }		
                         }  
                     })
                     .catch((err) => {
-                        // console.log(`API call failed!....${port}`)
+                        console.log(`wit API call failed!....${err}`)
                         res.send(defaultResponse);
                     })	
                   }
@@ -211,22 +208,21 @@ router.post('/webhook/', function(req, res) {
   function getNews(senderId, newsCategory,newsLocation,phraseSrch,userIntent) {
     showTypingIndicatorToUser(senderId, true);
     var fetchUrl = {
-        sources:'google_news_in',
-        category:newsCategory,
+        category: newsCategory,
         language: 'en',
         country: 'in'
     };
     var randomSearch = {q:phraseSrch};
-    fetchUrl = userIntent === "get_headlines" ? randomSearch:fetchUrl
+    fetchUrl = userIntent === "random_search" ? randomSearch:fetchUrl;
     newsapi.v2.topHeadlines(fetchUrl).then(response => {
         showTypingIndicatorToUser(senderId, false);
         console.log(response);
-        if (response.data.articles) {
-            if (response.data.articles.length > 0) {
+        if (response.articles) {
+            if (response.articles.length > 0) {
               var elements = []
-              var resultCount =  response.data.articles.length > 5 ? 5 : response.data.articles.length;
+              var resultCount =  response.articles.length > 5 ? 5 : response.articles.length;
               for (i = 0; i < resultCount; i++) {
-                var article = res.response.data.articles[i];
+                var article = response.articles[i];
                 elements.push(getElementObject(article));
               }
               sendUIMessageToUser(senderId, elements);
@@ -238,5 +234,4 @@ router.post('/webhook/', function(req, res) {
           }
       });    
   }
-
 module.exports = router;
