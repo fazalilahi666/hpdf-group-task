@@ -1,8 +1,5 @@
 .hasura
 node_modules
-npm-debug.log
-build
-.DS_Store
 .env
 .vscode
-fbBot.js
+microservices/api/src/fbBot.js
