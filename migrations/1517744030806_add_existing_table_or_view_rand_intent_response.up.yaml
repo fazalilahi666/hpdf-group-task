@@ -1,0 +1,3 @@
+- args:
+    name: rand_intent_response
+  type: add_existing_table_or_view

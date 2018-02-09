@@ -1,105 +1,94 @@
-[**React**](https://reactjs.org) is a JavaScript library to create interactive user interfaces. The core library is focussed on the view layer. It is declarative and component based. This quickstart uses [**create-react-app**](https://github.com/facebook/create-react-app) to scaffold a react app with no build configuration.
+# WIT - Categorize User Input
 
-## What does this come with?
+## What is it?
 
-* React.js Hello World Project
-  * Automatic reloading and bundling
-  * All *create-react-app* feature
-  * react-scripts with inbuilt webpack bundling
-* Deployed with the [**serve**](https://www.npmjs.com/package/serve) package
-* **Dockerfile** (automatically used by Hasura for deployment)
+A nodejs-backed webhook that infers intents and extracts entities from user query it recieves using WIT API.
+
+## How it works?
+
+### Workflow
+
+You want to understand what your end-user wants to perform. For example:
+
+Ask about the weather
+Book a restaurant
+Open the garage door
+The problem is that there a millions of different ways to express a given intent. For instance, all the following expressions should be mapped to the same intent:
+
+“What is the weather in Paris?”
+“Give me the current weather in Paris”
+“Is it sunny or rainy in Paris now?”
+
+This is exactly what APIs like WIT come into picture.
+
+Extending on this concept, this application categorizes queries related to getting news.
+So queries like:
+"Whats happening in sports" 
+"red out to me from sports"
+"get me news in sports"
+
+will give 
+#intent: 
+get_headlines
+#entities:
+1. news_location = india(deafult,unless queried for)
+2. news_category = sports
+
+### Internal Implementation
+
+1. When a user query is received by the webhook, it uses WIT to infer intents and entities (read about these on WIT docs).
+2. the extracted intents and entities are then sent as response from the webhook
+
+#This app currently contains the following intents it understands:
+get_headlines : when user queries for fetching news by location or news category(sports,entertainment,business,general,health etc)
+random_search : when user makes a random (eg. "premier league")
+user_thanked : when user thanks (eg. "thank you")
+user_greeted : when user greets (eg. "hi", "hey", "yo")
+user_left : when user says "bye", "see you" etc.
+
+
+## What does it use?
+
+1. [Hasura](https://hasura.io)
+2. [WIT API](https://wit.ai/docs)
+
+
+
+## How do I use it?
+
+1. Install [hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
+
+2. clone the project and `cd` into it.
+
+3. Create a wit [access token](https://developers.intercom.com/v2.0/reference#personal-access-tokens-1) for your and add it to hasura secrets as well.
 
 ```
-FROM node:8
-
-RUN apt-get update && apt-get install -y build-essential python
-
-#Install deps
-RUN mkdir /app
-COPY app/package.json /app/package.json
-RUN cd /app && npm install
-RUN npm -g install serve
-
-#Add all source code
-ADD app /app/
-RUN cd /app && npm run build
-
-WORKDIR /app
-
-#Default command
-CMD ["serve", "-s", "build", "-p", "8080"]
+$ hasura secret update chatbot.access.token <access_token>
 ```
 
-## Deployment instructions
+4. Create a project on Wit (https://wit.ai/docs/recipes#categorize-the-user-intent) (it is free). You can find your token in your app settings once you create the app.
 
-### Basic deployment:
-
-* Press the **Clone & Deploy** button and follow the instructions.
-* The `hasura quickstart` command clones the project repository to your local computer, and also creates a **free Hasura cluster**, where the project will be hosted for free.
-* A git remote (called hasura) is created and initialized with your project directory.
-* Now get your cluster name using `hasura cluster status` and modify the package.json file inside `microservices/ui/app/package.json`. Assign your cluster name to `REACT_APP_CLUSTER_NAME` environment variable.
-* Run `git add .`, `git commit`, and `git push hasura master`.
-* Run the below command to open your shiny new deployed react app.
-``` shell
-$ hasura microservice open ui
+```
+$ hasura secret update bot.wit_access_token.key <api_key>
 ```
 
-### Making changes and deploying
+5. Finally, deploy the webhook using git push. Run these commands from the project directory.
 
-* To make changes to the project, browse to `/microservices/ui/app/src` and edit the `HasuraExampleApp.js` file in `hasuraExamples` folder according to your app.
-* Commit the changes, and perform `git push hasura master` to deploy the changes.
-
-## Local development
-
-To test and make changes to this app locally, follow the below instructions.
-* Open Terminal and `cd` into the project folder
-* Run `npm install` to install all the project dependencies
-* Run `npm start` and `npm build` in the terminal to build and run it.
-* Make changes to the app, and see the changes in the browser
-
-## View server logs
-
-You can view the logs emitted by the ‘serve’ package by running the below command:
-
-``` shell
-$ hasura microservice logs ui
 ```
-You can see the logs in your terminal, press `CTRL + C` to stop logging.
+$ git add .
+$ git commit -m "First commit"
+$ git push hasura master
+```
 
-## Managing app dependencies
+   You are done. You can make post requests to the endpoint:get-news
+   ##Note: post body must contain the user query in "get-news" parameter
 
-* System dependencies, like changing the web-server can be made in the Dockerfile
-* npm/yarn deps can be managed by editing **package.json**.
+## How to build on top of this?
 
-If changes have been done to the dependencies, `git commit`, and perform `git push hasura master` to deploy the changes.
+This webhook is written in Nodejs using the express framework. The source code lies in `microservices/api/src` directory. `webhook.js` is where you want to start modifying the code.
 
-## Migrating your existing React.js app
+If you are using any extra packages, just add them to `microservices/api/src/package.json` and they will be installed during the build.
 
-* If you have an existing react app which you would like to deploy, replace the code inside `/microservices/ui/src/` according to your app.
-* You may need to modify the Dockerfile if your `package.json` or the build directory location has changed, but in most cases, it won't be required.
-* Commit, and run `git push hasura master` to deploy your app.
+## Support
 
-## Adding backend features
-
-Hasura comes with BaaS APIs to make it easy to add backend features to your apps.
-
-### Add instant authentication via Hasura’s web UI kit
-
-Every project comes with an Authentication kit, you can restrict the access to your app to specific user roles.
-It comes with a UI for Signup and Login pages out of the box, which takes care of user registration and signing in.
-
-![Auth UI](https://docs.hasura.io/0.15/_images/uikit-dark.png)
-
-Follow the [Authorization docs](https://docs.hasura.io/0.15/manual/users/uikit.html) to add Authentication kit to your app.
-
-### Add a custom API
-
-Hasura project is composed of a set of microservices. These include certain Hasura microservices like, postgres, nginx, data API, auth API and more but can also include your own microservices.
-This quickstart comes with one such custom service written in `nodejs` using the `express` framework. Check it out in action at `https://api.cluster-name.hasura-app.io` . Currently, it just returns a "Hello-React" at that endpoint.
-
-* [Adding Microservice](https://docs.hasura.io/0.15/manual/custom-microservices/index.html)
-
-### Add data APIs
-
-Hasura comes with set of Data APIs to access the Postgres database which comes bundled with every Hasura cluster.
-Detailed docs of data APIs can be found [here](https://docs.hasura.io/0.15/manual/data/index.html).
+If you happen to get stuck anywhere, please mail me at ebmsfazal@gmail.com. Alternatively, if you find a bug, you can raise an issue [here](https://github.com/fazalilahi666/hpdf-group-task/issues).

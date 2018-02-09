@@ -1,0 +1,4 @@
+- args:
+    sql: ALTER TABLE "intent_response" ADD FOREIGN KEY ("intent_id") REFERENCES "user_intent"
+      ("id")
+  type: run_sql

@@ -1,0 +1,14 @@
+- args:
+    role: anonymous
+    table: country
+  type: drop_select_permission
+- args:
+    permission:
+      columns:
+      - id
+      - country_id
+      - country_name
+      filter: {}
+    role: anonymous
+    table: country
+  type: create_select_permission

@@ -1,0 +1,9 @@
+- args:
+    permission:
+      columns:
+      - intent
+      - response
+      filter: {}
+    role: anonymous
+    table: rand_intent_response
+  type: create_select_permission

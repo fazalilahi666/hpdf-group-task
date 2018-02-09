@@ -1,0 +1,3 @@
+- args:
+    sql: DROP VIEW "rand_intent_response"
+  type: run_sql

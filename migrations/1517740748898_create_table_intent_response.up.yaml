@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "intent_response"("id" serial NOT NULL, "intent_id" integer
+      NOT NULL, "response" text NOT NULL, PRIMARY KEY ("id") )
+  type: run_sql
+- args:
+    name: intent_response
+  type: add_existing_table_or_view

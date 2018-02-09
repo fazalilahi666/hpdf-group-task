@@ -4,3 +4,5 @@ npm-debug.log
 build
 .DS_Store
 .env
+.vscode
+fbBot.js
