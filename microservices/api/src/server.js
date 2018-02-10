@@ -6,7 +6,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 require('request-debug')(request);
 
-//var fbBotRouter = require('./fbBot');
 var webhookRouter = require('./newsWebhook');
 
 var server = require('http').Server(app);
@@ -18,7 +17,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', webhookRouter);
-//app.use('/fb-bot', fbBotRouter);
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!');

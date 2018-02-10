@@ -2,4 +2,3 @@
 node_modules
 .env
 .vscode
-microservices/api/src/fbBot.js
