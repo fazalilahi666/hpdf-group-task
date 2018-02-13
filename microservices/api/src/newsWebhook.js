@@ -123,6 +123,7 @@ router.route("/").get(function (req, res) {
 })
 
 router.route("/get-news").post(function (req, res) {
+
     const client = new Wit({ accessToken: accessToken });
     const userQuery = req.body.getNews;
     console.log(`got userQuery...  ${userQuery}`);
