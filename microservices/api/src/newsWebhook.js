@@ -125,7 +125,7 @@ router.route("/").get(function (req, res) {
 router.route("/get-news").post(function (req, res) {
 
     const client = new Wit({ accessToken: accessToken });
-    const userQuery = req.body.getNews;
+    const userQuery = req.body.searchQuery;
     console.log(`got userQuery...  ${userQuery}`);
     var userIntent;
     // make wit request
@@ -151,38 +151,38 @@ router.route("/get-news").post(function (req, res) {
             }
             else {
                 //take action based on intent   
-                console.log(`witRes.entities...  ${witRes.entities}`);
-                res.status(200).json({ success: true, "data": witRes.entities });
-                // switch (userIntent) {
-                //     case 'random_search':
-                //     case 'get_headlines':
-                //         getNewsInfo(newsCategory, newsLocation, phraseSrch, userIntent).then(function (news) {
-                //             res.status(200).json({ success: true, "data": news })
-                //         })
-                //         break;
-                //     case 'user_greeted':
-                //         // get casual intent greeting response
-                //         hasuraPromise('user_greeted', '').then(function (botResp) {
-                //             res.status(200).json({ success: true, "data": botResp });
-                //         });
-                //         break;
-                //     case 'user_thanked':
-                //         // get casual intent thank response
-                //         hasuraPromise('user_thanked', '').then(function (botResp) {
-                //             res.status(200).json({ success: true, "data": botResp });
-                //         });
-                //         break;
-                //     case 'user_left':
-                //         //get casual intent left response
-                //         hasuraPromise('user_left', '').then(function (botResp) {
-                //             res.status(200).json({ success: true, "data": botResp });
-                //         });
-                //         break;
-                //     default:
-                //         console.log(`userintent...  ${userIntent}`);
-                //         res.status(200).json({ success: true, "data": defaultResponse });
-                //         break;
-                // }
+                //console.log(`witRes.entities...  ${witRes.entities}`);
+                //res.status(200).json({ success: true, "data": witRes.entities });
+                switch (userIntent) {
+                    case 'random_search':
+                    case 'get_headlines':
+                        getNewsInfo(newsCategory, newsLocation, phraseSrch, userIntent).then(function (news) {
+                            res.status(200).json({ success: true, "data": news })
+                        })
+                        break;
+                    case 'user_greeted':
+                        // get casual intent greeting response
+                        hasuraPromise('user_greeted', '').then(function (botResp) {
+                            res.status(200).json({ success: true, "data": botResp });
+                        });
+                        break;
+                    case 'user_thanked':
+                        // get casual intent thank response
+                        hasuraPromise('user_thanked', '').then(function (botResp) {
+                            res.status(200).json({ success: true, "data": botResp });
+                        });
+                        break;
+                    case 'user_left':
+                        //get casual intent left response
+                        hasuraPromise('user_left', '').then(function (botResp) {
+                            res.status(200).json({ success: true, "data": botResp });
+                        });
+                        break;
+                    default:
+                        console.log(`userintent...  ${userIntent}`);
+                        res.status(200).json({ success: true, "data": defaultResponse });
+                        break;
+                }
             }
         })
         .catch((err) => {
