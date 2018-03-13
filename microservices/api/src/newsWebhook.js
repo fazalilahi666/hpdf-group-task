@@ -7,7 +7,7 @@ var config = require('./config');
 
 const accessToken = process.env.WIT_ACCESS_TOKEN;
 const newOrg_API_KEY = process.env.NEWS_API_KEY;
-const hasura_data_key = process.env.HASRA_DATA_KEY;
+const hasura_data_key = process.env.HASURA_DATA_KEY;
 const newsapi = new NewsAPI(newOrg_API_KEY);
 
 // response to sent user      
