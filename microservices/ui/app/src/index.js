@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import HasuraExampleApp from './hasuraExamples/HasuraExampleApp';
-
-//Replace HasuraExampleApp with your own component
-ReactDOM.render(
-  <HasuraExampleApp />,
-  document.getElementById('root')
+import MainApp from './MainApp';
+import './index.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+const App = () => (
+    <MuiThemeProvider>
+        <MainApp/>
+    </MuiThemeProvider>
 );
+ReactDOM.render(<App />, document.getElementById('root'));

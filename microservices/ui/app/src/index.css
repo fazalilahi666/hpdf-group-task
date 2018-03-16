@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Courier New;
+    background-color: blue;
+}
+
+#searched {
+    background-color: beige;
+    border-radius: 20px 20px 20px 20px;
+    text-align: center;
+    height: 30px;
+    width: 250px;
+    margin-left: 550px;
+    margin-top: 5px;
+    position: absolute;
+}
+
+input:focus {
+    outline:none;
+}
+
+#enter {
+    margin-top: 5px;
+    margin-left: 810px;
+    height: 38px;
+    width: 38px;
+    border-radius: 25px;
+}
+
+.User {
+    text-align: right;
+}
+
+.Pap-User {
+    min-height: 20px;
+    min-width: 200px;
+    background-color: blue;
+    font-family: Arial;
+    color: darkblue;
+}
+
+.Server {
+    text-align: left;
+}
+
+.Pap-Server{
+    min-height: 20px;
+    min-width: 200px;
+    background-color: blue;
+    font-family: ;
+    color: darkblue;
+}
