@@ -57,7 +57,7 @@ class App extends React.Component {
 	       }),
         }).then((response) => response.json())
             .then(responseJson => {
-                alert(JSON.stringify(responseJson));
+                //alert(JSON.stringify(responseJson));
                 this.setState({
                     intentResponse: JSON.stringify(responseJson),
                     intent:  responseJson.data,
@@ -72,7 +72,7 @@ class App extends React.Component {
                 a.className='Server';
                 Pap.appendChild(a);
                 document.getElementById('Paper').appendChild(Pap);
-                alert(responseJson.data);
+                //alert(responseJson.data);
             })
             .catch(error => console.log(error));
         /*if(this.state.intent.isArray)
