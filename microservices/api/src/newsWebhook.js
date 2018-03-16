@@ -123,7 +123,7 @@ router.route("/").get(function (req, res) {
 })
 
 router.route("/get-news").post(function (req, res) {
-
+    res.setHeader('Access-Control-Allow-Origin','*');
     const client = new Wit({ accessToken: accessToken });
     const userQuery = req.body.searchQuery;
     console.log(`got userQuery...  ${userQuery}`);
