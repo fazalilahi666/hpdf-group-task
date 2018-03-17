@@ -24,7 +24,7 @@ This is exactly what APIs like WIT come into picture.
 Extending on this concept, this application categorizes queries related to getting news.
 So queries like:
 "Whats happening in sports" 
-"red out to me from sports"
+"read out to me from sports"
 "get me news in sports"
 
 will give 
@@ -49,45 +49,36 @@ user_left : when user says "bye", "see you" etc.
 
 ## What does it use?
 
-1. [Hasura](https://hasura.io)
-2. [WIT API](https://wit.ai/docs)
+## Pre-requisites
+* [Hasura CLI] (https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
+* [WIT API account](https://wit.ai/docs)
 
+## Getting the project
+Press the **Clone & Deploy** button above and follow the instructions.
 
+## Make changes and deploy
+To make changes to the project, browse to /microservices/api/src and edit the files according to your app.
 
-## How do I use it?
+* Create a wit [access token](https://wit.ai/) for your app and add it to hasura secrets.You can find your token in your app settings once you create the app
 
-1. Install [hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
+     ``` $ hasura secrets update bot.wit_access_token.key <your token> ```
 
-2. clone the project and `cd` into it.
+* Create a NewsAPI [access token](https://newsapi.org/register) for your app and add it to hasura secrets
 
-3. Create a wit [access token](https://developers.intercom.com/v2.0/reference#personal-access-tokens-1) for your and add it to hasura secrets as well.
+     ``` $ hasura secrets update bot.news_api_key.key <your token> ```
 
-```
-$ hasura secret update chatbot.access.token <access_token>
-```
+* Run 
+```$ git add .```
+, ```$ git commit -m "First commit"```
+ and ```$ git push hasura master```
 
-4. Create a project on Wit (https://wit.ai/docs/recipes#categorize-the-user-intent) (it is free). You can find your token in your app settings once you create the app.
+### You are done. 
+You can now make post requests to the endpoint: **get-news**
 
-```
-$ hasura secret update bot.wit_access_token.key <api_key>
-```
+#### Note: **post request body must contain the user query in "userQuery" parameter**
 
-5. Finally, deploy the webhook using git push. Run these commands from the project directory.
-
-```
-$ git add .
-$ git commit -m "First commit"
-$ git push hasura master
-```
-
-   You are done. You can make post requests to the endpoint:get-news
-   ##Note: post body must contain the user query in "get-news" parameter
-
-## How to build on top of this?
-
-This webhook is written in Nodejs using the express framework. The source code lies in `microservices/api/src` directory. `webhook.js` is where you want to start modifying the code.
-
-If you are using any extra packages, just add them to `microservices/api/src/package.json` and they will be installed during the build.
+## Support
+If you happen to get stuck anywhere, feel free to contact me at ebmsfazal@gmail.com. Alternatively, if you find a bug, you can raise an issue [here](https://github.com/fazalilahi666/hpdf-group-task/issues).
 
 ## Support
 
