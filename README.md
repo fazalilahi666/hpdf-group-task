@@ -79,7 +79,3 @@ You can now make post requests to the endpoint: **get-news**
 
 ## Support
 If you happen to get stuck anywhere, feel free to contact me at ebmsfazal@gmail.com. Alternatively, if you find a bug, you can raise an issue [here](https://github.com/fazalilahi666/hpdf-group-task/issues).
-
-## Support
-
-If you happen to get stuck anywhere, please mail me at ebmsfazal@gmail.com. Alternatively, if you find a bug, you can raise an issue [here](https://github.com/fazalilahi666/hpdf-group-task/issues).
