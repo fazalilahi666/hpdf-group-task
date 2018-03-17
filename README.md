@@ -50,7 +50,7 @@ user_left : when user says "bye", "see you" etc.
 ## What does it use?
 
 ## Pre-requisites
-* [Hasura CLI] (https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
+* [Hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
 * [WIT API account](https://wit.ai/docs)
 
 ## Getting the project
