@@ -1,0 +1,16 @@
+body {
+	background-color: 	navajowhite;
+}
+
+.a {
+	border-radius: 50px 50px 50px 50px;
+	height: 55px;
+	width: 500px;
+	margin-top: 20%;
+	margin-left: 31%;
+	font-size: 20px;
+}
+
+.center {
+	margin-left:45%
+}
